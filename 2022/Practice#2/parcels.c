@@ -14,6 +14,10 @@ int max_location[2];
 
 void get_distances()
 {
+    memset(distance, 1, sizeof distance);
+    max_distance = 0;
+    memset(max_location, 0, sizeof max_location);
+
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
@@ -21,30 +25,35 @@ void get_distances()
             if (grid[i][j] == '1')
             {
                 distance[i][j] = 0;
-                continue;
             }
             else
             {
-                for(int k = 0; k < locations_counter; k++)
+                for (int k = 0; k < locations_counter; k++)
                 {
-                    int dis = abs(i - locations[locations_counter][0]) \
-                               + abs(j - locations[locations_counter][1]);
+                    int dis = abs(i - locations[k][0]) \
+                               + abs(j - locations[k][1]);
 
-                    if (dis > distance[i][j])
-                        distance[i][j] = dis;
-
-                    if (dis > max_distance)
+                    if (dis < distance[i][j])
                     {
-                        max_distance = dis;
-                        max_location[0] = i;
-                        max_location[1] = j; 
+                        distance[i][j] = dis;
                     }
                 }
             }
         }
     }
-    
-    return;
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            if (distance[i][j] > max_distance)
+            {
+                max_distance = distance[i][j];
+                max_location[0] = i;
+                max_location[1] = j;
+            }
+        }
+    }
 }
 
 int main(int argc, char **argv)
@@ -53,12 +62,10 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < cases; i++)
     {
+        memset(grid, 0, sizeof grid);
         memset(locations, 0, sizeof locations);
         locations_counter = 0;
-        memset(distance, 0, sizeof distance);
-        max_distance = 0;
-        memset(max_location, 0, sizeof max_location);
-
+        
         scanf("%i %i\n", &rows, &cols);
         for (int i = 0; i < rows; i++)
         {
@@ -67,8 +74,8 @@ int main(int argc, char **argv)
                 scanf("%c", &grid[i][j]);
                 if (grid[i][j] == '1')
                 {
-                    locations[locations_counter][0] = i - '0';
-                    locations[locations_counter][1] = j - '0';
+                    locations[locations_counter][0] = i;
+                    locations[locations_counter][1] = j;
                     locations_counter++;
                 }
             }
@@ -78,8 +85,9 @@ int main(int argc, char **argv)
         get_distances();
 
         grid[max_location[0]][max_location[1]] = '1';
-        max_distance = 0;
-
+        locations[locations_counter][0] = max_location[0];
+        locations[locations_counter][1] = max_location[1];
+        locations_counter++;
         get_distances();
 
         printf("Case #%i: %i\n", i + 1, max_distance);

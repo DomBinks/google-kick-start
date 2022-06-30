@@ -7,7 +7,7 @@ int main(int argc, char **argv)
     int palindromes;
     int blocks, questions;
     char letters[1000001];
-    int occurrences[90];
+    int occurrences[91];
     int left, right;
     int odds;
 
@@ -23,28 +23,23 @@ int main(int argc, char **argv)
         {
             memset(occurrences, 0, sizeof occurrences);
             odds = 0;
-
             scanf("%i %i\n", &left, &right);    
+
             for(int k = left-1; k < right; k++)
             {
-                printf("%i %c\n", k, letters[k]);
                 occurrences[letters[k]]++;
-            }
-            for(int k = 65; k <= 90; k++)
-            {
-                printf("%c: %i\n", k, occurrences[k]);
-
-                if (occurrences[k] % 2 != 0)
+                
+                if (occurrences[letters[k]] % 2 != 0)
                     odds++;
-
-                if (odds > 1)
-                    continue;
+                else
+                    odds--;
             }
-            palindromes++;
+
+            if (odds <= 1)
+                palindromes++;
         }
 
         printf("Case #%i: %i\n", i + 1, palindromes);
-        printf("-----------------------------\n");
     }
 
     return 0;
