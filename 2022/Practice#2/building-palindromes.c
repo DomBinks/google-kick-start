@@ -25,6 +25,7 @@ int main(int argc, char **argv)
             odds = 0;
             scanf("%i %i\n", &left, &right);    
 
+            // Get amount of letters that have an odd number of occurrences
             for(int k = left-1; k < right; k++)
             {
                 occurrences[letters[k]]++;
@@ -35,6 +36,8 @@ int main(int argc, char **argv)
                     odds--;
             }
 
+            // Increment palindromes in <= 1 letters with an odd number
+            // of occurrences
             if (odds <= 1)
                 palindromes++;
         }

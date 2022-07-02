@@ -13,6 +13,7 @@ int main(int argc, char **argv)
         total = 0;
         scanf("%i %i\n", &bags, &kids); 
         
+        // Find total number of candies
         for (int j = 0; j < bags; j++)
         {
             scanf("%i", &temp);

@@ -46,13 +46,32 @@ void get_distances()
     {
         for (int j = 0; j < cols; j++)
         {
-            if (distance[i][j] > max_distance)
+            int points[9][2] = {{i-1, j-1}, {i-1, j}, {i-1,j+1}, 
+                {i, j-1}, {i, j}, {i, j+1}, {i+1, j-1}, {i+1, j}, {i+1, j+1}};
+            int total = 0;
+
+            for (int m = 0; m < 9; m++)
             {
-                max_distance = distance[i][j];
+                if ((points[m][0] >= 0 && points[m][0] < rows) && \
+                        (points[m][1] >= 0 && points[m][1] < cols))
+                {
+                    total += distance[points[m][0]][points[m][1]]; 
+                }
+            }
+
+            if (total > max_distance)
+            {
+                max_distance = total;
                 max_location[0] = i;
                 max_location[1] = j;
             }
         }
+    }
+
+    if (max_location[0] == 0 && max_location[1] == 0)
+    {
+        max_location[0] = rows / 2;
+        max_location[1] = cols / 2;
     }
 }
 
@@ -83,14 +102,14 @@ int main(int argc, char **argv)
         }
 
         get_distances();
-
         grid[max_location[0]][max_location[1]] = '1';
         locations[locations_counter][0] = max_location[0];
         locations[locations_counter][1] = max_location[1];
         locations_counter++;
         get_distances();
 
-        printf("Case #%i: %i\n", i + 1, max_distance);
+        printf("Case #%i: %i\n", i + 1, 
+                distance[max_location[0]][max_location[1]]);
     }
 
     return 0;

@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+// Recursive sum function
 int sum(int a)
 {
     if (a == 0)
@@ -20,6 +21,8 @@ int main(int argc, char **argv)
     {
         substrings = 0;
         scanf("%i %i\n", &lefts, &rights);
+
+        // Find min value
         if (lefts < rights)
             substrings = sum(lefts);
         else
